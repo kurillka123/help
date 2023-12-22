@@ -9,7 +9,7 @@ def get_hero(name=None,
             inventory=None
             ) -> list:
     if not name:
-        names = ('роман', 'Валера', 'Мао', 'Акакий', 'Вася')
+        names = choice(['роман', 'Валера', 'Мао', 'Акакий', 'Вася'])
         name = choice(names)
     if not inventory:
         inventory = []
@@ -39,14 +39,33 @@ def  visit_shop(hero, shop_item):
     if option == '1':
         for num, item in enumerate(shop_item, 1):
             print(f'{num} - {item}')
-        option = input('выберите покупку:')
-    #TODO Купить товар по опции
+        print('0 - отмена')
+        option = int(input('выберите покупку:'))
+        prise_tmp = 10
+        if option > len(shop_item) or option < 0:
+            print('неверная опция')
+        elif option == '0':
+            print('выход')
+        else:
+            item_index = int(option) - 1
+            item_name = shop_item[item_index]
+            if hero[4] < prise_tmp:
+                print('нет монет')
+            else:
+                hero[4] -= prise_tmp
+                hero[5].append(item_name)
+                shop_item.pop(item_index)
+                print(hero[4])
+            print(f'{hero[0]} купил {item_name}')
+            
 
-shop_item = ['зелье лечения', 'зелье копчения']
+shop_item = ['зелье лечения', 'зелье копченият', 'зелье лечения', 'зелье копченият', 'зелье лечения', 'зелье копченият']
+visit_shop(player, shop_item)
+print('--- игра окончена ---')
+show_hero(player)
 visit_shop(player, shop_item)
 
-
-
-player = get_hero('вася')
+player = get_hero()
 show_hero(player)
+
 
